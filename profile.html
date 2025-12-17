@@ -132,7 +132,9 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // التحقق من حالة المستخدم
+        // ⚠️ الإيميل المخادع (gml)
+        const ADMIN_EMAIL = "adhamatyaadmin231@gml.com"; 
+
         onAuthStateChanged(auth, (user) => {
             const loader = document.getElementById('loading-msg');
             const content = document.getElementById('profile-content');
@@ -142,18 +144,35 @@
                 const name = user.displayName || "Valued Guest";
                 const email = user.email;
                 
-                // توليد صورة عشوائية جميلة باستخدام API مجاني بناءً على اسم المستخدم لضمان ثبات الصورة لنفس الشخص
-                // نستخدم DiceBear API لصور فنية جميلة
+                // توليد صورة Avatar
                 const avatarUrl = `https://api.dicebear.com/9.x/notionists/svg?seed=${name}&backgroundColor=transparent`;
 
                 document.getElementById('display-name').innerText = name;
                 document.getElementById('display-email').innerText = email;
                 document.getElementById('user-avatar').src = avatarUrl;
 
+                // --- كشف هوية الأدمن ---
+                if(email === ADMIN_EMAIL) {
+                    const btnContainer = document.querySelector('.btn-luxury').parentNode;
+                    
+                    // إنشاء زر لوحة التحكم
+                    const adminBtn = document.createElement('a');
+                    adminBtn.href = "admin.html";
+                    adminBtn.className = "btn-luxury link-hover";
+                    adminBtn.style.borderColor = "#ff4d4d"; // لون أحمر مميز
+                    adminBtn.style.color = "#ff4d4d";
+                    adminBtn.innerText = "Admin Dashboard 🔒";
+                    
+                    // إضافته قبل زر تسجيل الخروج
+                    const logoutBtn = document.getElementById('logout-btn');
+                    btnContainer.insertBefore(adminBtn, logoutBtn);
+                }
+                // -----------------------
+
                 loader.style.display = 'none';
                 content.style.display = 'block';
             } else {
-                // غير مسجل دخول - طرده للخارج
+                // غير مسجل دخول - تحويل لصفحة الدخول
                 window.location.href = "login.html";
             }
         });
@@ -166,7 +185,6 @@
         });
 
         // --- VISUAL EFFECTS (Stars & Cursor) ---
-        // نفس تأثيرات الجافاسكريبت الموجودة في الملفات السابقة
         const canvas = document.getElementById('starfield');
         const ctx = canvas.getContext('2d');
         let width, height, stars = [];
@@ -187,3 +205,4 @@
     </script>
 </body>
 </html>
+
