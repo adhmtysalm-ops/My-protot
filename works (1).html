@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADHAM ATYA | All Works</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --surface-color: #121212;
+            --text-main: #f0f0f0;
+            --text-muted: #888888;
+            --accent-gold: #D4AF37;
+            --border-light: rgba(212, 175, 55, 0.2);
+        }
+        body.light-mode {
+            --bg-color: #F4F1EA;
+            --surface-color: #FFFFFF;
+            --text-main: #151515;
+            --text-muted: #4a4a4a;
+            --accent-gold: #A68A36;
+            --border-light: rgba(166, 138, 54, 0.3);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        body { background-color: var(--bg-color); color: var(--text-main); font-family: 'Manrope', sans-serif; overflow-x: hidden; top: 0 !important; transition: background-color 0.5s, color 0.5s; }
+        
+        #starfield { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 900; opacity: 0.03;
+            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAGFBMVEUAAAA5OTkAAABMTExERERmZmYzMzMyMjJ4358EAAAACHRSTlMAM8zMzMzMzM31FX+jAAAASUlEQVQ4y2NgwA78//9fYI7///9/gRj///8/wIw/Pz9fgjH+/P37F8YA48/fv39gDDD+/PnzB8YA48+fP39gDDAwMDAwMDAwMAAA2w0f849g0OAAAAAASUVORK5CYII=");
+        }
+        .cursor-dot, .cursor-outline { position: fixed; transform: translate(-50%, -50%); border-radius: 50%; pointer-events: none; z-index: 9999; will-change: transform; }
+        .cursor-dot { width: 8px; height: 8px; background-color: var(--accent-gold); left:0; top:0; }
+        .cursor-outline { width: 40px; height: 40px; border: 1px solid var(--accent-gold); transition: width 0.2s, height 0.2s, background-color 0.2s; left:0; top:0; }
+        body.hovering .cursor-outline { width: 60px; height: 60px; background-color: rgba(212, 175, 55, 0.1); border-color: transparent; }
+
+        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--text-main); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        a { text-decoration: none; color: inherit; }
+
+        .page-header { padding: 100px 20px 50px; text-align: center; border-bottom: 1px solid var(--border-light); }
+        .page-title { font-size: 4rem; margin-bottom: 20px; }
+        .back-link { font-size: 1rem; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 2px; }
+        
+        .controls-container { position: fixed; top: 30px; right: 30px; z-index: 1000; display: flex; gap: 40px; }
+        .control-btn { width: 45px; height: 45px; border-radius: 50%; border: 1px solid var(--border-light); background: rgba(20,20,20,0.1); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        .control-btn svg { width: 20px; height: 20px; fill: var(--text-main); }
+        .control-btn:hover { border-color: var(--accent-gold); transform: scale(1.1); }
+        .goog-te-banner-frame { display: none !important; }
+        #google_translate_element { opacity: 0; width: 100%; height: 100%; position: absolute; cursor: pointer !important; }
+
+        .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; margin-top: 60px; align-items: start; }
+        .work-item { position: relative; }
+        
+        .work-img-container { 
+            width: 100%; 
+            height: auto; 
+            overflow: visible; 
+            background-color: transparent; 
+        }
+        .work-img-container img { 
+            width: 100%; 
+            height: auto; 
+            object-fit: contain; 
+            transition: transform 0.8s; 
+            filter: grayscale(100%); 
+        }
+        
+        .work-item:hover .work-img-container img { transform: scale(1.02); filter: grayscale(0%); }
+        .work-info { padding-top: 15px; display: flex; justify-content: space-between; }
+        .work-title { font-size: 1.5rem; font-family: 'Playfair Display', serif; }
+        .work-cat { color: var(--accent-gold); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; }
+
+        #contact { border-top: 1px solid var(--border-light); padding-top: 80px; margin-top: 50px; padding-bottom: 80px; }
+        .contact-container { max-width: 700px; margin: 0 auto; text-align: center; }
+        .form-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--border-light); padding: 15px 0; color: var(--text-main); font-family: 'Manrope', sans-serif; font-size: 1.1rem; transition: 0.3s; }
+        .form-input:focus { outline: none; border-bottom-color: var(--accent-gold); }
+        .btn-luxury { display: inline-block; padding: 15px 50px; border: 1px solid var(--accent-gold); color: var(--text-main); font-family: 'Playfair Display', serif; font-size: 1.2rem; transition: 0.4s; position: relative; overflow: hidden; background: transparent; cursor: pointer; }
+        .btn-luxury:hover { background-color: var(--accent-gold); color: #000; letter-spacing: 2px; }
+        .phone-link { display: inline-block; font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; color: var(--text-main); text-decoration: none; margin-bottom: 30px; transition: 0.3s; direction: ltr; }
+        .phone-link:hover { color: var(--accent-gold); transform: scale(1.05); }
+        .footer-icons { display: flex; justify-content: center; gap: 30px; margin-bottom: 30px; }
+        .footer-icon { width: 50px; height: 50px; border: 1px solid var(--border-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        .footer-icon svg { width: 20px; height: 20px; fill: var(--text-main); transition: 0.3s; }
+        .footer-icon:hover { border-color: var(--accent-gold); transform: translateY(-5px); }
+        .footer-icon:hover svg { fill: var(--accent-gold); }
+
+        .toast-notification { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: rgba(20, 20, 20, 0.95); border: 1px solid var(--accent-gold); padding: 15px 30px; border-radius: 50px; color: var(--accent-gold); font-family: 'Manrope', sans-serif; font-weight: 600; opacity: 0; transition: 0.5s; z-index: 10000; display: flex; align-items: center; gap: 10px; }
+        .toast-notification.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .toast-notification svg { width: 20px; height: 20px; fill: var(--accent-gold); }
+
+        @media (max-width: 768px) {
+            * { cursor: auto !important; }
+            .cursor-dot, .cursor-outline { display: none !important; }
+            .page-title { font-size: 2.5rem; }
+            .gallery-grid { grid-template-columns: 1fr; }
+            .phone-link { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="starfield"></canvas>
+    <div class="noise-overlay"></div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <div id="success-toast" class="toast-notification">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        Send successful
+    </div>
+
+    <div class="controls-container">
+        <div class="control-btn link-hover" id="theme-toggle">
+            <svg id="theme-icon" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+        </div>
+        <div class="control-btn link-hover" style="position: relative;">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            <div id="google_translate_element"></div>
+        </div>
+    </div>
+
+    <div class="page-header">
+        <a href="index.html" class="back-link link-hover">← Back to Home</a>
+        <h1 class="page-title">Complete Archive</h1>
+        <p style="color:var(--text-muted)">A collection of my finest work.</p>
+    </div>
+
+    <div class="container">
+        <div class="gallery-grid">
+            <div class="work-item link-hover">
+                <div class="work-img-container"><img src="/images/1.png" loading="lazy" alt="Royal Brand"></div>
+                <div class="work-info"><span class="work-title">Royal Brand</span><span class="work-cat">Branding</span></div>
+            </div>
+            <div class="work-item link-hover" style="margin-top:40px;">
+                <div class="work-img-container"><img src="/images/2.jpg" loading="lazy" alt="Oud Scent"></div>
+                <div class="work-info"><span class="work-title">Oud Scent</span><span class="work-cat">Packaging</span></div>
+            </div>
+            <div class="work-item link-hover">
+                <div class="work-img-container"><img src="3.png" loading="lazy" alt="Architect V"></div>
+                <div class="work-info"><span class="work-title">Architect V</span><span class="work-cat">Art Direction</span></div>
+            </div>
+            <div class="work-item link-hover" style="margin-top:40px;">
+                <div class="work-img-container"><img src="4.png" loading="lazy" alt="Calligraphy"></div>
+                <div class="work-info"><span class="work-title">Calligraphy</span><span class="work-cat">Typography</span></div>
+            </div>
+            <div class="work-item link-hover">
+                <div class="work-img-container"><img src="/images/5.png" loading="lazy" alt="Modern Interior"></div>
+                <div class="work-info"><span class="work-title">Modern Interior</span><span class="work-cat">3D Design</span></div>
+            </div>
+            <div class="work-item link-hover" style="margin-top:40px;">
+                <div class="work-img-container"><img src="6.png" loading="lazy" alt="Tech Startup"></div>
+                <div class="work-info"><span class="work-title">Tech Startup</span><span class="work-cat">Web Design</span></div>
+            </div>
+            <div class="work-item link-hover">
+                <div class="work-img-container"><img src="/7.png" loading="lazy" alt="New Project"></div>
+                <div class="work-info"><span class="work-title">New Project</span><span class="work-cat">Creative</span></div>
+            </div>
+        </div>
+    </div>
+
+    <footer id="contact">
+        <div class="contact-container">
+            <h2 style="margin-bottom: 50px; color: var(--accent-gold); font-size:1rem; letter-spacing:4px; font-family:'Manrope', sans-serif;">GET IN TOUCH</h2>
+            <form id="contact-form">
+                <div style="margin-bottom: 30px;"><input type="text" class="form-input link-hover" placeholder="Your Name" required></div>
+                <div style="margin-bottom: 30px;"><input type="email" class="form-input link-hover" placeholder="Your Email" required></div>
+                <div style="margin-bottom: 30px;"><textarea class="form-input link-hover" placeholder="How can I help you?" required style="height:100px; resize:none;"></textarea></div>
+                <div style="text-align: center;"><button type="submit" id="submit-btn" class="btn-luxury link-hover" style="width: 100%;">Send Message</button></div>
+            </form>
+            <div style="width: 100%; height: 1px; background: var(--border-light); margin: 50px 0;"></div>
+            <p style="color:var(--text-muted); margin-bottom: 10px;">Call Me Directly</p>
+            <a href="tel:+201153786085" class="phone-link link-hover">0115 378 6085</a>
+            <div class="footer-icons">
+                <a href="https://www.instagram.com/adhom1592009?igsh=emxzOTJmbjVrMDlp" class="footer-icon link-hover" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                <a href="https://www.behance.net/Adham-Atya" class="footer-icon link-hover" target="_blank"><svg viewBox="0 0 24 24"><path d="M22 7h-7v-2h7v2zm1.726 10c-.09 1.326-1.026 3.037-3.778 3.037-3.056 0-4.634-2.219-4.634-5.074 0-2.825 1.77-5.029 4.67-5.029 2.457 0 3.864 1.348 4.226 3.326h-2.185c-.218-.686-.889-1.529-1.956-1.529-1.322 0-2.251 1.139-2.251 3.254 0 1.936.879 3.097 2.274 3.097 1.258 0 1.906-.926 2.062-1.981h1.572zm-17.726-10h6v6h-6v-6zm0-4h-6v20h6.147c4.604 0 6.653-2.196 6.653-5.599 0-2.311-1.127-3.784-3.064-4.577 1.581-.629 2.502-1.956 2.502-3.876 0-2.909-2.074-5.948-6.091-5.948h-6.147zm2.7 8.046v-5.232h3.197c1.693 0 2.427.781 2.427 2.505 0 1.733-.82 2.727-2.607 2.727h-3.017zm.003 9.141v-6.328h3.456c1.944 0 2.924.896 2.924 3.129 0 2.067-1.077 3.199-3.045 3.199h-3.335z"/></svg></a>
+                <a href="mailto:adhmtysalm@gmail.com" class="footer-icon link-hover"><svg viewBox="0 0 24 24"><path d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm7.494 6.105l-4.476-3.617 5.514 4.493 1.22 1.05 1.221-1.05 5.514-4.493-4.477 3.617 5.509 6.895h-15.534l5.509-6.895zm6.802 1.558l4.622-3.746v9.458l-4.622-5.712z"/></svg></a>
+            </div>
+            <p style="color:var(--text-muted); font-size: 0.9rem;">&copy; 2025 ADHAM ATYA. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() { 
+            new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'en,ar,fr,es,de,it', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element'); 
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        // --- Theme Toggle Logic ---
+        const themeBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const sunPath = "M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.79 1.41-1.41-1.79-1.79-1.41 1.41zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z";
+        const moonPath = "M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z";
+
+        if(localStorage.getItem('theme') === 'light'){ document.body.classList.add('light-mode'); themeIcon.querySelector('path').setAttribute('d', sunPath); }
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            if(document.body.classList.contains('light-mode')){ localStorage.setItem('theme', 'light'); themeIcon.querySelector('path').setAttribute('d', sunPath); }
+            else { localStorage.setItem('theme', 'dark'); themeIcon.querySelector('path').setAttribute('d', moonPath); }
+        });
+
+        // --- Custom Cursor Logic ---
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        window.addEventListener('mousemove', (e) => {
+            if(getComputedStyle(cursorDot).display !== 'none'){
+                cursorDot.style.left = `${e.clientX}px`; cursorDot.style.top = `${e.clientY}px`;
+                cursorOutline.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 500, fill: "forwards" });
+            }
+        });
+        document.querySelectorAll('.link-hover').forEach(l => {
+            l.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            l.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+
+        // --- Starfield Animation ---
+        const canvas = document.getElementById('starfield');
+        const ctx = canvas.getContext('2d');
+        let width, height, stars = [];
+        function initStars() {
+            width = window.innerWidth; height = window.innerHeight;
+            canvas.width = width; canvas.height = height;
+            stars = [];
+            for(let i=0; i<100; i++){
+                stars.push({ x: Math.random() * width, y: Math.random() * height, size: Math.random() * 2, speed: Math.random() * 0.5 });
+            }
+        }
+        function animateStars() {
+            ctx.clearRect(0,0,width,height);
+            ctx.fillStyle = document.body.classList.contains('light-mode') ? '#a68a36' : '#ffffff';
+            stars.forEach(star => {
+                star.y -= star.speed;
+                if(star.y < 0) star.y = height;
+                ctx.beginPath(); ctx.arc(star.x, star.y, star.size, 0, Math.PI*2); ctx.fill();
+            });
+            requestAnimationFrame(animateStars);
+        }
+        window.addEventListener('resize', initStars);
+        initStars();
+        animateStars();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    
+    <script>
+        (function() {
+            emailjs.init("SLAJxc8UY_vefht9D"); // YOUR PUBLIC KEY
+        })();
+
+        const contactForm = document.getElementById('contact-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const successToast = document.getElementById('success-toast');
+
+        if(contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const originalText = submitBtn.innerText;
+                submitBtn.innerText = "Sending...";
+                
+                let name = document.querySelector("input[placeholder='Your Name']").value;
+                let email = document.querySelector("input[placeholder='Your Email']").value;
+                let message = document.querySelector("textarea[placeholder='How can I help you?']").value;
+                
+                var templateParams = {
+                    user_name: name,
+                    user_email: email,
+                    user_message: message
+                };
+
+                emailjs.send("service_ge3lndb", "template_io95nhr", templateParams)
+                .then(function() {
+                    if(successToast) successToast.classList.add("show");
+                    submitBtn.innerText = originalText;
+                    contactForm.reset();
+                    
+                    setTimeout(() => {
+                        if(successToast) successToast.classList.remove("show");
+                    }, 3500);
+                    
+                }, function(error) {
+                    alert("Failed to send message. Please try again later.");
+                    console.error("EmailJS Error:", error);
+                    submitBtn.innerText = originalText;
+                });
+            });
+        }
+    </script>
+</body>
+</html>
