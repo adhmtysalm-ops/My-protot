@@ -132,47 +132,27 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // ⚠️ الإيميل المخادع (gml)
-        const ADMIN_EMAIL = "adhamatyaadmin231@gml.com"; 
-
+        // التحقق من حالة المستخدم
         onAuthStateChanged(auth, (user) => {
             const loader = document.getElementById('loading-msg');
             const content = document.getElementById('profile-content');
             
             if (user) {
-                // المستخدم مسجل دخول
+                // المستخدم مسجل دخول - عرض البيانات
                 const name = user.displayName || "Valued Guest";
                 const email = user.email;
                 
-                // توليد صورة Avatar
+                // توليد صورة عشوائية جميلة باستخدام API
                 const avatarUrl = `https://api.dicebear.com/9.x/notionists/svg?seed=${name}&backgroundColor=transparent`;
 
                 document.getElementById('display-name').innerText = name;
                 document.getElementById('display-email').innerText = email;
                 document.getElementById('user-avatar').src = avatarUrl;
 
-                // --- كشف هوية الأدمن ---
-                if(email === ADMIN_EMAIL) {
-                    const btnContainer = document.querySelector('.btn-luxury').parentNode;
-                    
-                    // إنشاء زر لوحة التحكم
-                    const adminBtn = document.createElement('a');
-                    adminBtn.href = "admin.html";
-                    adminBtn.className = "btn-luxury link-hover";
-                    adminBtn.style.borderColor = "#ff4d4d"; // لون أحمر مميز
-                    adminBtn.style.color = "#ff4d4d";
-                    adminBtn.innerText = "Admin Dashboard 🔒";
-                    
-                    // إضافته قبل زر تسجيل الخروج
-                    const logoutBtn = document.getElementById('logout-btn');
-                    btnContainer.insertBefore(adminBtn, logoutBtn);
-                }
-                // -----------------------
-
                 loader.style.display = 'none';
                 content.style.display = 'block';
             } else {
-                // غير مسجل دخول - تحويل لصفحة الدخول
+                // غير مسجل دخول - طرده لصفحة الدخول
                 window.location.href = "login.html";
             }
         });
