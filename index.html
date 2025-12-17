@@ -9,6 +9,8 @@
     <meta name="description" content="Adham Atya - Professional Graphic Designer specializing in luxury branding, logo design, and visual identity. Creating visuals that defy expectations.">
     <meta name="keywords" content="Adham Atya, Luxury in every pixel Adham Atya, Graphic Designer, Branding, Logo Design, Visual Identity, Luxury Design, Portfolio, مصمم جرافيك, أدهم عطية, تصميم شعارات, هوية بصرية">
     <meta name="author" content="Adham Atya">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#D4AF37">
 
     <link rel="icon" href="https://www2.0zz0.com/2025/12/14/14/724019180.png" type="image/png">
     <link rel="apple-touch-icon" href="https://www2.0zz0.com/2025/12/14/14/724019180.png">
@@ -503,5 +505,18 @@
             });
         }
     </script>
+    <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('ServiceWorker registration successful');
+                }, err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+        });
+    }
+</script>
+
 </body>
 </html>
