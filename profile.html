@@ -112,6 +112,7 @@
             <p class="user-email" id="display-email">Loading...</p>
 
             <a href="index.html" class="btn-luxury link-hover">Enter Portfolio</a>
+            
             <button id="logout-btn" class="btn-secondary link-hover">Sign Out</button>
         </div>
     </div>
@@ -132,6 +133,11 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
+        // ============================================
+        //  إعدادات الأدمن (Admin Setup)
+        // ============================================
+        const ADMIN_EMAIL = "ADHAMatyaadmin231@gml.com"; // <-- تأكد أن هذا الإيميل مطابق لإيميلك المسجل
+
         // التحقق من حالة المستخدم
         onAuthStateChanged(auth, (user) => {
             const loader = document.getElementById('loading-msg');
@@ -142,18 +148,42 @@
                 const name = user.displayName || "Valued Guest";
                 const email = user.email;
                 
-                // توليد صورة عشوائية جميلة باستخدام API مجاني بناءً على اسم المستخدم لضمان ثبات الصورة لنفس الشخص
-                // نستخدم DiceBear API لصور فنية جميلة
+                // توليد صورة عشوائية
                 const avatarUrl = `https://api.dicebear.com/9.x/notionists/svg?seed=${name}&backgroundColor=transparent`;
 
                 document.getElementById('display-name').innerText = name;
                 document.getElementById('display-email').innerText = email;
                 document.getElementById('user-avatar').src = avatarUrl;
 
+                // --- كود إضافة زر الأدمن (المنطقة المعدلة) ---
+                if (email === ADMIN_EMAIL) {
+                    // التحقق من عدم وجود الزر مسبقاً لمنع التكرار
+                    if (!document.getElementById('admin-link-btn')) {
+                        const adminBtn = document.createElement('a');
+                        adminBtn.id = 'admin-link-btn';
+                        adminBtn.href = "admin.html";
+                        adminBtn.className = "btn-luxury link-hover";
+                        
+                        // ستايل خاص لتمييز الزر
+                        adminBtn.innerText = "⚡ Admin Dashboard";
+                        adminBtn.style.borderColor = "#ff4444"; // لون حدود أحمر خافت
+                        adminBtn.style.color = "#ff4444";       // لون نص أحمر خافت
+                        
+                        // إضافة تأثير Hover بسيط بالجافاسكريبت ليتناسق مع CSS
+                        adminBtn.onmouseenter = function() { this.style.backgroundColor = "#ff4444"; this.style.color = "#000"; };
+                        adminBtn.onmouseleave = function() { this.style.backgroundColor = "transparent"; this.style.color = "#ff4444"; };
+
+                        // إدراج الزر قبل زر تسجيل الخروج
+                        const logoutBtn = document.getElementById('logout-btn');
+                        logoutBtn.parentNode.insertBefore(adminBtn, logoutBtn);
+                    }
+                }
+                // ---------------------------------------------
+
                 loader.style.display = 'none';
                 content.style.display = 'block';
             } else {
-                // غير مسجل دخول - طرده للخارج
+                // غير مسجل دخول - تحويل لصفحة الدخول
                 window.location.href = "login.html";
             }
         });
@@ -166,7 +196,6 @@
         });
 
         // --- VISUAL EFFECTS (Stars & Cursor) ---
-        // نفس تأثيرات الجافاسكريبت الموجودة في الملفات السابقة
         const canvas = document.getElementById('starfield');
         const ctx = canvas.getContext('2d');
         let width, height, stars = [];
