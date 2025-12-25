@@ -377,7 +377,10 @@
                     submitBtn.innerText = originalText;
                     return;
                 }
-                const allowedDomains = ["adham-portfolio.vercel.app", "localhost", "127.0.0.1"]; 
+                
+                // تم تعديل هذا السطر لقبول النطاق الخاص بك
+                const allowedDomains = ["adham-protofoilo.vercel.app", "adham-portfolio.vercel.app", "localhost", "127.0.0.1"]; 
+                
                 if (!allowedDomains.includes(window.location.hostname)) {
                     alert("Security Alert: Unauthorized domain.");
                     submitBtn.innerText = originalText;
