@@ -378,8 +378,8 @@
                     return;
                 }
                 
-                // تم تعديل هذا السطر لقبول النطاق الخاص بك
-                const allowedDomains = ["adham-protofoilo.vercel.app", "adham-portfolio.vercel.app", "localhost", "127.0.0.1"]; 
+                // التعديل هنا: السماح فقط للنطاق الجديد + localhost
+                const allowedDomains = ["adham-protofoilo.vercel.app", "localhost", "127.0.0.1"]; 
                 
                 if (!allowedDomains.includes(window.location.hostname)) {
                     alert("Security Alert: Unauthorized domain.");
