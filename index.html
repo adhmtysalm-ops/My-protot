@@ -505,6 +505,7 @@
             transform: translateY(0);
         }
         @media (max-width: 768px) {
+            .hero-content { text-align: center; } /* تم التعديل لتوسيط المحتوى */
             .hero-title { font-size: 2.8rem; white-space: normal; }
             .about-grid, .gallery-grid { grid-template-columns: 1fr; }
             .profile-wrapper { margin-bottom: 40px; }
@@ -765,7 +766,10 @@
                     submitBtn.innerText = originalText;
                     return;
                 }
-                const allowedDomains = ["adham-portfolio.vercel.app", "localhost", "127.0.0.1"]; 
+                
+                // تم التعديل هنا: السماح فقط للنطاق المطلوب
+                const allowedDomains = ["adham-protofoilo.vercel.app", "localhost", "127.0.0.1"]; 
+                
                 if (!allowedDomains.includes(window.location.hostname)) {
                     alert("Security Alert: Request from unauthorized domain.");
                     submitBtn.innerText = originalText;
